@@ -96,10 +96,11 @@ if prompt_input := st.chat_input("Ask a question about your documents..."):
             document_chain = create_stuff_documents_chain(llm, prompt)
             retriever = st.session_state.vector.as_retriever()
             retrieval_chain = create_retrieval_chain(retriever, document_chain)
-
-            start_time = time.process_time()
+            start_time = time.time()
             response = retrieval_chain.invoke({"input": prompt_input})
-            response_time = time.process_time() - start_time
+            elapsed = time.time() - start_time
+
+st.info(f"Response time: {elapsed:.2f} seconds")
 
         # Show assistant response
         with st.chat_message("assistant"):
